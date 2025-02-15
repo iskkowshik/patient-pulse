@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Register</title>
+  <style>
+    .login-register-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .form h2 {
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .submit-btn {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .toggle-btn {
+      margin-top: 20px;
+      background-color: transparent;
+      border: none;
+      color: #3498db;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .toggle-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-register-container">
+    <div class="form-container" id="formContainer">
+      
+        
+      <form class="form" id="registerForm" action="/patientsignup" method="post" enctype="multipart/form-data">
+        <h2>Register</h2>
+        <h2><%=message%></h2>
+        <div class="input-group">
+          <label for="registerName">Full Name:</label>
+          <input type="text" id="registerName" required name="name">
+        </div>
+        <div class="input-group">
+          <label for="registerEmail">Email:</label>
+          <input type="email" id="registerEmail" required name="email">
+        </div>
+        <div class="input-group">
+          <label for="registerPassword">Password:</label>
+          <input type="password" id="registerPassword" required name="password">
+        </div>
+
+        <div class="input-group">
+          <label for="gender">Gender:</label>
+          <input type="text" id="gender" required name="gender">
+        </div>
+
+        <div class="input-group">
+          <label for="registerPhone">Phone Number:</label>
+          <input type="text" id="registerPhone" name="phone">
+        </div>
+
+        <!-- New Age Field -->
+        <div class="input-group">
+          <label for="registerAge">Age:</label>
+          <input type="number" id="registerAge" min="0" required name="age">
+        </div>
+
+        <!-- New Image Upload Field -->
+        <div class="input-group">
+          <label for="registerImage">Upload Image:</label>
+          <input type="file" id="registerImage" accept="image/*" name="image">
+        </div>
+
+        <button type="submit" class="submit-btn">Register</button>
+      </form>
+
+      <br>
+      <br>
+   <a href="/patientlogin" class="toggle-btn">Already have an account ? Login</a>
+    </div>
+  </div>
+
+  
+
+</body>
+</html>

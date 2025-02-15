@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .dashboard-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .dashboard-section {
+      margin-top: 40px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    a{
+        color: white;
+        text-decoration: none;
+    }
+
+    .specialization-list, .appointments-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      justify-items: center;
+      margin-top: 20px;
+    }
+
+    .specialization-card, .appointment-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .specialization-card:hover, .appointment-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .specialization-card img, .appointment-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .specialization-name {
+      font-weight: bold;
+      color: #333;
+      font-size: 1.2rem;
+    }
+
+    .appointment-status {
+      font-size: 1rem;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    <h1>Patient Dashboard</h1>
+
+    <!-- Available Specializations Section -->
+    <div class="dashboard-section">
+      <h2>Available Specializations</h2>
+      <div class="specialization-list">
+        <!-- Sample specialization card for Cardiology -->
+        <div class="specialization-card">
+          <img src="https://tse4.mm.bing.net/th?id=OIP.doOfWpdzTuTWD-2G9w8yDgHaE8&pid=Api&P=0&h=180" alt="Cardiology">
+          <div class="specialization-name">Cardiology</div>
+          <p>Heart and blood vessel health</p>
+          <button class="btn"><a href="/cardiology/doc/:<%=data2.obj._id%>">ViewDoctors</a></button>
+        </div>
+        <!-- Sample specialization card for Dermatology -->
+        <div class="specialization-card">
+          <img src="https://tse1.mm.bing.net/th?id=OIP.fCbzejgey_CNmuvJ_AtlcgHaE1&pid=Api&P=0&h=180g" alt="Dermatology">
+          <div class="specialization-name">Dermatology</div>
+          <p>Skin, hair, and nail care</p>
+          <button class="btn"><a href="/dermatology/doc/:<%=data2.obj._id%>">ViewDoctors</a></button>
+        </div>
+        <!-- Sample specialization card for Pediatrics -->
+        <div class="specialization-card">
+          <img src="https://tse1.mm.bing.net/th?id=OIP.OFFNpBtkDESTDDNiwACOlwAAAA&pid=Api&P=0&h=180" alt="Pediatrics">
+          <div class="specialization-name">Pediatrics</div>
+          <p>Children’s health and wellness</p>
+          <button class="btn"><a href="/pediatrics/doc/:<%=data2.obj._id%>">ViewDoctors</a></button>
+        </div>
+        <!-- Sample specialization card for Orthopedics -->
+        <div class="specialization-card">
+          <img src="https://tse1.mm.bing.net/th?id=OIP.qi2yy5njWg7dMiILLr7KhwHaE8&pid=Api&P=0&h=180" alt="Orthopedics">
+          <div class="specialization-name">Orthopedics</div>
+          <p>Musculoskeletal system and injuries</p>
+          <button class="btn"><a href="/orthopedics/doc/:<%=data2.obj._id%>">ViewDoctors</a></button>
+        </div>
+        <!-- Sample specialization card for Neurology -->
+        <div class="specialization-card">
+          <img src="https://tse1.mm.bing.net/th?id=OIP.rATubpZLtA7rrlwtxshpvgHaFj&pid=Api&P=0&h=180" alt="Neurology">
+          <div class="specialization-name">Neurology</div>
+          <p>Nervous system and brain health</p>
+          <button class="btn"><a href="/neurology/doc/:<%=data2.obj._id%>">ViewDoctors</a></button>
+        </div>
+        <!-- Sample specialization card for Psychiatry -->
+        <div class="specialization-card">
+          <img src="https://tse1.mm.bing.net/th?id=OIP.8jS8ZgpyakZHEjeKHosyWwHaD4&pid=Api&P=0&h=180" alt="Psychiatry">
+          <div class="specialization-name">Psychiatry</div>
+          <p>Mental health and emotional well-being</p>
+          <button class="btn"><a href="/psychiatry">ViewDoctors</a></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patient's Upcoming Appointments Section -->
+    <div class="dashboard-section">
+      <h2>Upcoming Appointments</h2>
+      <div class="appointments-list">
+        <!-- Sample appointment card -->
+        <%data2.data.forEach((obj,ind)=>{%>
+ 
+
+          <div class="appointment-card">
+            <img src="https://tse4.mm.bing.net/th?id=OIP._LULPD7qC1DCVarhvTRZcwHaFJ&pid=Api&P=0&h=180" alt="Doctor">
+            <div>Dr. <%=obj.dname%></div>
+            <p class="appointment-status">Scheduled for <%=obj.timing%></p>
+            <button class="btn"><a href="/reshedule/doc/<%=obj._id%>">reshedule</a></button>
+            <button class="btn"><a href="/cancel/doc/<%=obj._id%>" >Cancel Appointment</a></button>
+          </div>
+
+       <% })%>
+        <!-- Additional appointment cards can be added similarly -->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

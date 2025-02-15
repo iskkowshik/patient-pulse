@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Card</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .doctor-card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 20px;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      max-height: 80vh;
+      overflow-y: auto; /* Ensures that overflow content can be scrolled */
+    }
+
+    .doctor-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s;
+      background: #f9f9f9;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .doctor-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .doctor-name {
+      font-weight: bold;
+      color: #333;
+      font-size: 1.4rem;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .doctor-specialization {
+      font-size: 1.2rem;
+      color: #007bff;
+      font-weight: bold;
+      background: #e3f2fd;
+      padding: 5px 10px;
+      border-radius: 5px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    .doctor-hospital, .doctor-experience {
+      font-size: 1rem;
+      color: #888;
+      margin-top: 5px;
+    }
+    a{
+        color:white;
+        text-decoration: none;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Add a background to the whole container */
+    .doctor-card-container {
+      background-color: #eef2f7;
+      padding: 30px;
+      border-radius: 10px;
+      overflow-y: auto;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="doctor-card-container">
+    <!-- Doctor 1 -->
+
+    <% data.list.forEach((obj,ind)=>{%>
+    <div class="doctor-card">
+      <% if(obj.gender=="female"){%>
+        <img src="https://tse4.mm.bing.net/th?id=OIP.PfJ3cHO96_YOqEl3CXoBPAHaHa&pid=Api&P=0&h=180" style="height:150px" alt="Doctor Image">
+    <% }%>
+    <% if(obj.gender=="male"){%>
+      <img src="https://tse2.mm.bing.net/th?id=OIP.I1xfExdFqKysg-bI9rURFAHaKx&pid=Api&P=0&h=180" style="height:150px" alt="Doctor Image">
+  <% }%>
+      
+      <div class="doctor-name">Doctor Name:<%=obj.name%></div>
+      <div class="doctor-specialization"><%=obj.special%></div>
+      <div class="doctor-specialization"><%=obj.city%></div>
+      <div class="doctor-specialization"><%=obj.address%></div>
+      <div class="doctor-hospital">Works At:<%=obj.ex%></div>
+      <div class="doctor-experience">Experience:<%=obj.experience%></div>
+      <div class="doctor-experience">Consultation fee:<%=obj.price%></div>
+      <button class="btn"><a href="/consult/doc/:<%=obj._id%>/:<%=data.pid %>">Consult Now</a></button>
+    </div>
+    <%})%>
+
+
+
+     
+
+    
+
+</body>
+</html>

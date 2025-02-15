@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consult Doctor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .consult-form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    .form h2 {
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .input-group input, .input-group textarea, .input-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .input-group textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .cancel-btn {
+      background-color: transparent;
+      border: 1px solid #3498db;
+      color: #3498db;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .cancel-btn:hover {
+      background-color: #3498db;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="consult-form-container">
+    <div class="form-container">
+      <form class="consult-form" id="consultForm" action="/submit/consultation/<%=obj.cid%>" method="post">
+        <h2>Consult a Doctor</h2>
+        
+        <!-- Problem Description -->
+        <div class="input-group">
+          <label for="problem">Problem Description:</label>
+          <input id="problem" name="problem" required placeholder="Describe your problem..." value="<%=obj.data.problem%>"/>
+        </div>
+
+        <!-- Preferred Consultation Timing -->
+        <div class="input-group">
+          <label for="consultationTiming">Preferred Consultation Timing:</label>
+          <input type="datetime-local" id="consultationTiming" name="timing" value="<%=obj.data.timing%>" required>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="input-group">
+          <label for="additionalNotes">Additional Notes:</label>
+          <input id="additionalNotes" name="notes" placeholder="Any additional information..." value="<%=obj.data.notes%>"/>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Submit</button>
+        
+        <!-- Cancel Button -->
+        <button type="button" class="cancel-btn">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Set the min attribute to the current date and time
+    const dateTimeInput = document.getElementById('consultationTiming');
+    const now = new Date();
+
+    // Format the date as yyyy-MM-ddTHH:mm (required for datetime-local input)
+    const formattedDateTime = now.toISOString().slice(0, 16); // yyyy-MM-ddTHH:mm
+
+    dateTimeInput.min = formattedDateTime;
+  </script>
+
+</body>
+</html>

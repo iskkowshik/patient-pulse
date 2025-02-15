@@ -1,0 +1,240 @@
+<%-include('header.ejs')-%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .home-container {
+      background-image: url('https://www.generalmedicine.com/wp-content/uploads/2014/10/doctor-and-senior-patient.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+    }
+
+    .search-input {
+      width: 200px;
+      padding: 12px;
+      margin-right: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    a{
+      color: white;
+      text-decoration: none;
+    }
+
+    .search-input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .suggestions {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .suggestions li {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .suggestions li:hover {
+      background-color: #f0f0f0;
+    }
+
+    .search-button {
+      padding: 12px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .search-button:hover {
+      background-color: #218838;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 20px;
+    }
+
+    .feature-box {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      color: green;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .feature-button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    .feature-button:hover {
+      background-color: #0056b3;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: rgb(7, 153, 36);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="home-container">
+    <h1>Welcome to The Patient Pulse</h1>
+
+    <!-- Search Bar for Finding Doctors -->
+   <form action="/searchbar" method="post">
+    <div class="search-container">
+      <div class="dropdown">
+        <input
+          type="text"
+          placeholder="Enter location to find doctors..."
+          class="search-input"
+          name="city"
+          id="city"
+        />
+        <ul class="suggestions" id="locationSuggestions"></ul>
+      </div>
+
+      <div class="dropdown">
+        <input
+          type="text"
+          placeholder="Search by specialization..."
+          class="search-input"
+          id="specialization"
+          name="specialization"
+        />
+        <ul class="suggestions" id="specializationSuggestions"></ul>
+      </div>
+
+      <button type="submit"  class="search-button">Search</button>
+   </form>
+    </div>
+
+    <div class="features">
+      <div class="feature-box">
+        <h2>Consult a Doctor</h2>
+        <p>Book an appointment with a specialist for personalized care.</p>
+        <button class="feature-button"><a href="/consultnow">Consult Now</a></button>
+      </div>
+
+      <div class="feature-box">
+        <h2>View Your Records</h2>
+        <p>Access your medical history and treatment records securely.</p>
+        <button class="feature-button">View your Records</button>
+      </div>
+
+      <div class="feature-box">
+        <h2>Read Articles</h2>
+        <p>Stay informed with the latest health articles and tips.</p>
+        <button class="feature-button"><a href="/readarticles">Read Articles</a></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const locations = [
+      "New York",
+      "Los Angeles",
+      "Chicago",
+      "Houston",
+      "Phoenix",
+    ];
+
+    const specializations = [
+      "Cardiologist",
+      "Dermatologist",
+      "Pediatrician",
+      "Neurologist",
+      "Orthopedic",
+    ];
+
+    const locationInput = document.getElementById('locationInput');
+    const specializationInput = document.getElementById('specializationInput');
+    const locationSuggestions = document.getElementById('locationSuggestions');
+    const specializationSuggestions = document.getElementById('specializationSuggestions');
+
+    locationInput.addEventListener('input', (e) => {
+      const value = e.target.value;
+      const filtered = locations.filter(location =>
+        location.toLowerCase().includes(value.toLowerCase())
+      );
+      locationSuggestions.innerHTML = filtered.map(location =>
+        <li onclick="selectLocation('${location}')">${location}</li>
+      ).join('');
+    });
+
+    specializationInput.addEventListener('input', (e) => {
+      const value = e.target.value;
+      const filtered = specializations.filter(spec =>
+        spec.toLowerCase().includes(value.toLowerCase())
+      );
+      specializationSuggestions.innerHTML = filtered.map(spec =>
+        <li onclick="selectSpecialization('${spec}')">${spec}</li>
+      ).join('');
+    });
+
+    function selectLocation(location) {
+      locationInput.value = location;
+      locationSuggestions.innerHTML = '';
+    }
+
+    function selectSpecialization(spec) {
+      specializationInput.value = spec;
+      specializationSuggestions.innerHTML = '';
+    }
+  </script>
+</body>
+</html>
+
+<%-include('footer.ejs')-%>

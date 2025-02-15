@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultation Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .details-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #3498db;
+      margin-bottom: 20px;
+    }
+
+    .details-section {
+      margin-bottom: 20px;
+    }
+
+    .details-section h2 {
+      color: #333;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+
+    .details-section p {
+      margin: 8px 0;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .back-btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="details-container">
+    <h1>Consultation Details</h1>
+
+    <!-- Patient Details Section -->
+    <div class="details-section">
+      <h2>Patient Details</h2>
+      <p><strong>Name:</strong> <%=data.pname%></p>
+      <p><strong>Phone Number:</strong> <%=data.phone%></p>
+      <p><strong>Gender:</strong> <%=data.pgender%></p>
+    </div>
+
+    <!-- Consultation Details Section -->
+    <div class="details-section">
+      <h2>Consultation Details</h2>
+      <p><strong>Problem Description:</strong> <%=data.problem%></p>
+      <p><strong>Preferred Consultation Timing:</strong> <%=data.timing%></p>
+      <p><strong>Additional Notes:</strong> <%=data.notes%></p>
+    </div>
+
+    <!-- Back Button -->
+    <a href="/backdash/doc/<%=data._id%>" class="back-btn">Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

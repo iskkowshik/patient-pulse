@@ -1,0 +1,123 @@
+<%-include('header.ejs')-%>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Articles</title>
+  <style>
+    .articles-container {
+      padding: 20px;
+      text-align: center;
+      background-color: #f7f7f7;
+      font-family: Arial, sans-serif;
+    }
+      a{
+        color: white;
+        text-decoration: none;
+      }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      max-width: 400px;
+      text-align: left;
+      transition: transform 0.2s;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .article-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    h2 {
+      color: #007bff;
+      margin: 10px 0;
+    }
+
+    .article-date {
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .article-content {
+      font-size: 1em;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="articles-container">
+    <h1>Latest Health Articles</h1>
+    <div class="articles-grid">
+
+      <div class="article-card">
+        <img src="https://tse4.mm.bing.net/th?id=OIP.sd-k47yR1TymvhfsF8WbkgHaDt&pid=Api&P=0&h=180" alt="The Importance of Regular Health Checkups" class="article-image">
+        <h2>The Importance of Regular Health Checkups</h2>
+        <p class="article-date">October 1, 2024 - By Dr. John Smith</p>
+        <p class="article-content">Regular health checkups are crucial for early detection of potential health issues. Early intervention can significantly improve outcomes and lower treatment costs.</p>
+      </div>
+
+      <div class="article-card">
+        <img src="https://tse4.mm.bing.net/th?id=OIP.qARnI9tfgfJrweF24NR4RwHaGk&pid=Api&P=0&h=180" alt="How to Maintain a Healthy Heart" class="article-image">
+        <h2>How to Maintain a Healthy Heart</h2>
+        <p class="article-date">September 25, 2024 - By Dr. Emily Clark</p>
+        <p class="article-content">Maintaining a healthy heart involves regular exercise, a balanced diet, and managing stress. It is important to monitor your cholesterol levels and stay active.</p>
+      </div>
+
+      <div class="article-card">
+        <img src="https://tse2.mm.bing.net/th?id=OIP.QtF2-9TXONJGUVFQsFXCXgHaEo&pid=Api&P=0&h=180" alt="Boost Your Immune System Naturally" class="article-image">
+        <h2>Boost Your Immune System Naturally</h2>
+        <p class="article-date">September 15, 2024 - By Dr. Alan Thompson</p>
+        <p class="article-content">A strong immune system can be boosted by eating a nutritious diet, getting enough sleep, staying hydrated, and maintaining a positive mindset.</p>
+      </div>
+
+      <div class="article-card">
+        <img src="https://tse3.mm.bing.net/th?id=OIP.1tO8WppB0EcA833YuRGG8wHaEK&pid=Api&P=0&h=180" alt="Tips for Better Mental Health" class="article-image">
+        <h2>Tips for Better Mental Health</h2>
+        <p class="article-date">August 30, 2024 - By Dr. Sarah Lee</p>
+        <p class="article-content">Mental health is as important as physical health. Practice mindfulness, seek social support, and maintain a healthy work-life balance to boost your mental well-being.</p>
+      </div>
+
+      <div class="article-card">
+        <img src="https://tse3.mm.bing.net/th?id=OIP.Mgc5torcODw4DDuV74yh7gHaEo&pid=Api&P=0&h=180" alt="Stay Hydrated for Optimal Health" class="article-image">
+        <h2>Stay Hydrated for Optimal Health</h2>
+        <p class="article-date">August 20, 2024 - By Dr. Robert Brown</p>
+        <p class="article-content">Proper hydration is essential for every bodily function. Aim to drink at least 8 glasses of water daily and consume water-rich foods like fruits and vegetables.</p>
+      </div>
+
+      <div class="article-card">
+        <img src="https://tse1.mm.bing.net/th?id=OIP.RJVUA0G_y-jLIECmiLa_BAHaEF&pid=Api&P=0&h=180" alt="The Role of Exercise in Disease Prevention" class="article-image">
+        <h2>The Role of Exercise in Disease Prevention</h2>
+        <p class="article-date">July 10, 2024 - By Dr. Kevin Adams</p>
+        <p class="article-content">Regular exercise helps reduce the risk of chronic diseases like diabetes and hypertension. Incorporate 30 minutes of physical activity into your daily routine for better health.</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
+<%-include('footer.ejs')-%>

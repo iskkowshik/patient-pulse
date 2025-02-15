@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React App</title>
+  <link rel="icon" href=
+"https://tse3.mm.bing.net/th?id=OIP.zSpmMQqJdRpRKyD4-YpZGAHaEO&pid=Api&P=0&h=180"
+        type="image/x-icon" style="height: 100px;"/>
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #3498db;
+      padding: 1rem 2rem;
+      font-family: Arial, sans-serif;
+    }
+
+    .logo h2 {
+      color: white;
+      margin: 0;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      margin: 0;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .nav-links li a:hover {
+      color: #eaeaea;
+    }
+
+    .login-btn {
+      background-color: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background-color: white;
+      color: #3498db;
+      border-color: #3498db;
+    }
+
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <h2>The Patient Pulse</h2>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/find-doctors">Find Doctors</a></li>
+      <li><a href="#video-consult">Video Consult</a></li>
+      
+      <li>
+        <button class="login-btn" ><a href="/patientlogin">Patient</a></button>
+      </li>
+      <li>
+        <button class="login-btn" ><a href="/doctorlogin">Doctor</a></button>
+      </li>
+    </ul>
+  </nav>
+
+
+
+      
+
+      
+    </div>
+  </div>
+</body>
+</html>
