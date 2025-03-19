@@ -21,8 +21,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 require('dotenv').config();
 app.set('view engine','ejs');
 const port=process.env.PORT||5000;
-const uri='mongodb+srv://iskkowshik:123kowshik123@cluster0.e2v7e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-
+const mongo_uri=process.env.mongo_uri
 const session=require('express-session')
 app.use(session({resave:true,secret:"secret",saveUninitialized:true}));
 
