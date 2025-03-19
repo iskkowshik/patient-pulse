@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Slots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .slot-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        select, input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+        .btn-add {
+            background-color: #28a745;
+        }
+        .btn-remove {
+            background-color: #dc3545;
+        }
+        .btn-submit {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Update Slots</h2>
+    <form id="slotForm" action="/update-slots/<%= id %>" method="POST">
+        <div id="slotContainer">
+            <div class="slot-group">
+                <select name="day[]" required>
+                    <option value="">Select Day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+                <input type="time" name="start_time[]" required>
+                <input type="time" name="end_time[]" required>
+                <button type="button" class="btn btn-remove" onclick="removeSlot(this)">❌</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-add" onclick="addSlot()">➕ Add Slot</button>
+        <button type="submit" class="btn btn-submit">Submit Slots</button>
+    </form>
+</div>
+
+<script>
+    function addSlot() {
+        const slotContainer = document.getElementById("slotContainer");
+        const slotGroup = document.createElement("div");
+        slotGroup.classList.add("slot-group");
+
+        slotGroup.innerHTML = `
+            <select name="day[]" required>
+                <option value="">Select Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+            <input type="time" name="start_time[]" required>
+            <input type="time" name="end_time[]" required>
+            <button type="button" class="btn btn-remove" onclick="removeSlot(this)">❌</button>
+        `;
+        slotContainer.appendChild(slotGroup);
+    }
+
+    function removeSlot(button) {
+        button.parentElement.remove();
+    }
+</script>
+
+</body>
+</html>

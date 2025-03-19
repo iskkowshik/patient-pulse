@@ -1,22 +1,12 @@
-<%-include('header.ejs')-%>
+<%- include('header.ejs') %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
+  <title>The Patient Pulse</title>
   <style>
-    .search-container {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
-    .dropdown {
-      position: relative;
-    }
-
     .home-container {
       background-image: url('https://www.generalmedicine.com/wp-content/uploads/2014/10/doctor-and-senior-patient.jpg');
       background-size: cover;
@@ -30,6 +20,16 @@
       text-align: center;
     }
 
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
     .search-input {
       width: 200px;
       padding: 12px;
@@ -39,10 +39,6 @@
       font-size: 16px;
       transition: border-color 0.3s;
     }
-    a{
-      color: white;
-      text-decoration: none;
-    }
 
     .search-input:focus {
       border-color: #007bff;
@@ -51,7 +47,7 @@
 
     .suggestions {
       position: absolute;
-      background-color: white;
+      background-color: #f8f9fa; /* Light gray for visibility */
       border: 1px solid #ddd;
       border-radius: 5px;
       list-style: none;
@@ -64,10 +60,11 @@
     .suggestions li {
       padding: 10px;
       cursor: pointer;
+      color: black;
     }
 
     .suggestions li:hover {
-      background-color: #f0f0f0;
+      background-color: #e9ecef;
     }
 
     .search-button {
@@ -93,15 +90,22 @@
     }
 
     .feature-box {
-      background-color: #fff;
+      background-color: white;
       border: 1px solid #ddd;
-      color: green;
       border-radius: 10px;
       padding: 20px;
       margin: 10px;
       width: 250px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-box h2 {
+      color: #007bff;
+    }
+
+    .feature-box p {
+      color: #333;
     }
 
     .feature-button {
@@ -125,116 +129,116 @@
       margin: 20px 0;
       color: rgb(7, 153, 36);
     }
-
   </style>
 </head>
 <body>
+
   <div class="home-container">
     <h1>Welcome to The Patient Pulse</h1>
 
     <!-- Search Bar for Finding Doctors -->
-   <form action="/searchbar" method="post">
-    <div class="search-container">
-      <div class="dropdown">
-        <input
-          type="text"
-          placeholder="Enter location to find doctors..."
-          class="search-input"
-          name="city"
-          id="city"
-        />
-        <ul class="suggestions" id="locationSuggestions"></ul>
-      </div>
+    <form action="/searchbar" method="post">
+      <div class="search-container">
+        <div class="dropdown">
+          <input
+            type="text"
+            placeholder="Enter location to find doctors..."
+            class="search-input"
+            name="city"
+            id="city"
+            autocomplete="off"
+          />
+          <ul class="suggestions" id="locationSuggestions"></ul>
+        </div>
 
-      <div class="dropdown">
-        <input
-          type="text"
-          placeholder="Search by specialization..."
-          class="search-input"
-          id="specialization"
-          name="specialization"
-        />
-        <ul class="suggestions" id="specializationSuggestions"></ul>
-      </div>
+        <div class="dropdown">
+          <input
+            type="text"
+            placeholder="Search by specialization..."
+            class="search-input"
+            id="specialization"
+            name="specialization"
+            autocomplete="off"
+          />
+          <ul class="suggestions" id="specializationSuggestions"></ul>
+        </div>
 
-      <button type="submit"  class="search-button">Search</button>
-   </form>
+        <button type="submit" class="search-button">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Feature Boxes Below -->
+  <div class="features">
+    <div class="feature-box">
+      <h2>Read Articles</h2>
+      <p>Stay informed with the latest health articles and tips.</p>
+      <button class="feature-button"><a href="/readarticles" style="text-decoration: none; color: white;">Read Articles</a></button>
     </div>
 
-    <div class="features">
-      <div class="feature-box">
-        <h2>Consult a Doctor</h2>
-        <p>Book an appointment with a specialist for personalized care.</p>
-        <button class="feature-button"><a href="/consultnow">Consult Now</a></button>
-      </div>
+    <div class="feature-box">
+      <h2>Consult a Doctor</h2>
+      <p>Book an appointment with a specialist for personalized care.</p>
+      <button class="feature-button"><a href="/consultnow" style="text-decoration: none; color: white;">Consult Now</a></button>
+    </div>
 
-      <div class="feature-box">
-        <h2>View Your Records</h2>
-        <p>Access your medical history and treatment records securely.</p>
-        <button class="feature-button">View your Records</button>
-      </div>
-
-      <div class="feature-box">
-        <h2>Read Articles</h2>
-        <p>Stay informed with the latest health articles and tips.</p>
-        <button class="feature-button"><a href="/readarticles">Read Articles</a></button>
-      </div>
+    <div class="feature-box">
+      <h2>View Medical Records</h2>
+      <p>Access your medical history and treatment records securely.</p>
+      <button class="feature-button">View Records</button>
     </div>
   </div>
 
   <script>
-    const locations = [
-      "New York",
-      "Los Angeles",
-      "Chicago",
-      "Houston",
-      "Phoenix",
+    const indianCities = [
+      "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad",
+      "Chennai", "Kolkata", "Pune", "Jaipur", "Lucknow"
     ];
 
     const specializations = [
-      "Cardiologist",
-      "Dermatologist",
-      "Pediatrician",
-      "Neurologist",
-      "Orthopedic",
+      "Cardiologist", "Dermatologist", "Pediatrician", "Neurologist",
+      "Orthopedic", "Ophthalmologist", "Psychiatrist", "Dentist", "Gynecologist"
     ];
 
-    const locationInput = document.getElementById('locationInput');
-    const specializationInput = document.getElementById('specializationInput');
-    const locationSuggestions = document.getElementById('locationSuggestions');
-    const specializationSuggestions = document.getElementById('specializationSuggestions');
+    const cityInput = document.getElementById("city");
+    const specializationInput = document.getElementById("specialization");
+    const locationSuggestions = document.getElementById("locationSuggestions");
+    const specializationSuggestions = document.getElementById("specializationSuggestions");
 
-    locationInput.addEventListener('input', (e) => {
-      const value = e.target.value;
-      const filtered = locations.filter(location =>
-        location.toLowerCase().includes(value.toLowerCase())
-      );
-      locationSuggestions.innerHTML = filtered.map(location =>
-        <li onclick="selectLocation('${location}')">${location}</li>
-      ).join('');
-    });
+    function updateSuggestions(input, suggestionsList, data, selectFunction) {
+      const value = input.value.toLowerCase();
+      suggestionsList.innerHTML = "";
+      if (!value) return;
 
-    specializationInput.addEventListener('input', (e) => {
-      const value = e.target.value;
-      const filtered = specializations.filter(spec =>
-        spec.toLowerCase().includes(value.toLowerCase())
-      );
-      specializationSuggestions.innerHTML = filtered.map(spec =>
-        <li onclick="selectSpecialization('${spec}')">${spec}</li>
-      ).join('');
-    });
+      const filtered = data.filter(item => item.toLowerCase().includes(value));
+      filtered.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        li.onclick = () => selectFunction(item);
+        suggestionsList.appendChild(li);
+      });
+    }
 
     function selectLocation(location) {
-      locationInput.value = location;
-      locationSuggestions.innerHTML = '';
+      cityInput.value = location;
+      locationSuggestions.innerHTML = "";
     }
 
     function selectSpecialization(spec) {
       specializationInput.value = spec;
-      specializationSuggestions.innerHTML = '';
+      specializationSuggestions.innerHTML = "";
     }
+
+    cityInput.addEventListener("input", () => {
+      updateSuggestions(cityInput, locationSuggestions, indianCities, selectLocation);
+    });
+
+    specializationInput.addEventListener("input", () => {
+      updateSuggestions(specializationInput, specializationSuggestions, specializations, selectSpecialization);
+    });
   </script>
+
 </body>
 </html>
 
-<%-include('footer.ejs')-%>
+<%- include('footer.ejs') %>

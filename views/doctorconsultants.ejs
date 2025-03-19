@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    .dashboard-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .dashboard-section {
+      margin-top: 40px;
+    }
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .appointment-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      justify-items: center;
+      margin-top: 20px;
+    }
+    .appointment-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .appointment-card:hover {
+      transform: translateY(-10px);
+    }
+    .btn {
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .btn.reject {
+      background-color: #dc3545;
+    }
+    .btn.reject:hover {
+      background-color: #c82333;
+    }
+    .btn:disabled {
+      background-color: gray;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+        
+    <div class="dashboard-section">
+      <h2>Your Upcoming Consultations</h2>
+      <div class="appointment-list">
+        <% data2.forEach((obj, ind) => { %>
+          <% 
+            const scheduledTime = new Date(obj.timing);
+            const currentTime = new Date();
+            if (obj.approved && scheduledTime >= currentTime) { 
+          %>
+            <div class="appointment-card">
+              <img src="https://tse3.mm.bing.net/th?id=OIP.DPo2V2bJxCbpVmftaJSWygHaF5&pid=Api&P=0&h=180" alt="Patient">
+              <div class="appointment-info">Patient: <%= obj.pname %></div>
+              <p>Consultation Scheduled on: <%= obj.timing %></p>
+              <button class="btn"><a href="/viewdetails/<%= obj._id %>">View Details</a></button>
+              <button class="btn start-video-btn" data-time="<%= obj.timing %>" disabled>
+                <a href="/video">Start Video</a>
+              </button>
+            </div>
+          <% } %>
+        <% }) %>
+        
+      </div>
+   
+  <script>
+    function checkTime() {
+      const buttons = document.querySelectorAll('.start-video-btn');
+      buttons.forEach(button => {
+        const scheduledTime = new Date(button.getAttribute('data-time'));
+        const currentTime = new Date();
+        if (currentTime >= scheduledTime) {
+          button.disabled = false;
+        } else {
+          button.disabled = true;
+        }
+      });
+    }
+    setInterval(checkTime, 60000);
+    window.onload = checkTime;
+  </script>
+</body>
+</html>

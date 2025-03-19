@@ -1,6 +1,8 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const path=require('path');
+const jwt=require('jsonwebtoken');
+const cookieParser=require('cookie-parser');
 
 const app=express();
 var nm=require('nodemailer');
@@ -12,13 +14,14 @@ const transporter = nm.createTransport({
         pass: 'umzhuqhqbxejmuen'
     }
 });
+app.use(cookieParser());
 const bodyParser=require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 require('dotenv').config();
 app.set('view engine','ejs');
 const port=process.env.PORT||5000;
-const uri='mongodb://localhost:27017/college';
+const uri='mongodb+srv://iskkowshik:123kowshik123@cluster0.e2v7e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 const session=require('express-session')
 app.use(session({resave:true,secret:"secret",saveUninitialized:true}));
@@ -52,10 +55,13 @@ let adminfil=(req,resp,next)=>{
         next();
     }
 }
+//const admin = require('.adminconn.js');
+const patient = require('./patientconn.js');
+const doctor = require('./doctorconn.js');
+const consult = require('./consultconn.js');
 
-const admin=require('./adminconn.js');
-const patient=require('./patientconn.js');
-const doctor=require('./doctorconn.js');
+
+
 
 mongoose.connect(uri).then((suc)=>{
     console.log("db conected");
@@ -124,7 +130,44 @@ app.get('/doctoraccept/doc/:id',async(req,resp)=>{
 
  })
  
+   let verifypatient=(req,resp,next)=>{
+      
+    let token=req.cookies.token;
+    if(!token)
+    {
+        resp.redirect('/patientlogin');
+    }
+    
+    jwt.verify(token,'my-secret-key',(err,user)=>{
+        if(user)
+        {
+            req.user=user;
+           // console.log("helllo isk",user);
+           next();
+        }
+    })
+    
+   }
 
+
+   let verifydoctor=(req,resp,next)=>{
+      
+    let token=req.cookies.token;
+    if(!token)
+    {
+        resp.redirect('/doctorlogin');
+    }
+    
+    jwt.verify(token,'my-secret-key',(err,user)=>{
+        if(user)
+        {
+            req.user=user;
+           // console.log("helllo isk",user);
+           next();
+        }
+    })
+    
+   }
 
 
 app.post('/patientlogin',async(req,resp)=>{
@@ -136,21 +179,9 @@ app.post('/patientlogin',async(req,resp)=>{
     let obj=data[0];
     console.log(obj);
     if(data[0])
-    {  req.session.patient=1;
-        let pid=obj._id;
-       // console.log("patient");
-      ////  let data=await consult.find({patientid:obj._id});
-       //console.log(data);
-       //let data2={obj:obj,data:data};
-       // resp.render('patienthome',{data2});
-       if(req.session.path)
-       { let path=req.session.path
-        req.session.path="";
-        resp.redirect(path);
-       }
-       else{
-       resp.redirect('/patienthome'+'/'+pid);
-       }   
+    {  let token=jwt.sign({uid:obj._id,role:"patient"},"my-secret-key",{expiresIn:'2h'})
+         resp.cookie("token",token);
+         resp.redirect('/patienthome/'+obj._id);
         
     }
     else{
@@ -163,10 +194,11 @@ app.post('/patientlogin',async(req,resp)=>{
 
 //})
 
-app.get('/patienthome/:id',patfil,async(req,resp)=>{
+app.get('/patienthome/:id',verifypatient,async(req,resp)=>{
     let id=req.params.id
     let obj=await patient.find({_id:id});
        obj=obj[0];
+       console.log(obj);
         let data1=await consult.find({patientid:obj._id});
         console.log(obj,data1);
 
@@ -185,30 +217,51 @@ app.post('/doctorlogin',async(req,resp)=>{
     let data=await doctor.find({email:email,password:password});
     if(data[0]&&data[0].verified==true)
     {  let id=data[0]._id;
-       
-        req.session.doctor=1;
-        if(req.session.path)
-        {  let path=req.session.path;
-            req.session.path="";
-            resp.redirect(path);
-        }
-        else{
-        resp.redirect('/doctorhome'+'/'+id);
-        }
+        let token=jwt.sign({uid:id,role:"doctor"},"my-secret-key",{expiresIn:'2h'})
+        resp.cookie("token",token);
+        resp.redirect('/doctorhome/'+id);
+        
     }
-    else{
-        resp.send("invalid user");
-    }
+   
 });
 
-app.get('/doctorhome/:id',docfil,async(req,resp)=>{
+app.get('/doctorhome/:id',verifydoctor,async(req,resp)=>{
 let id=req.params.id
-    let data2=await consult.find({doctorid:id});
-    resp.render('doctorhome',{data2});
+    id={did:id}
+    resp.render('doctorhome',{id});
 
 })
 
+app.get('/doctorconsultants/:id',async(req,resp)=>{
 
+    let id=req.params.id;
+    let data2=await consult.find({doctorid:id});
+    console.log("future")
+    console.log(data2);
+    resp.render('doctorconsultants',{data2});
+
+})
+
+app.get('/pastconsultations/:id',async(req,resp)=>{
+    let id=req.params.id;
+    console.log("past")
+    let data2=await consult.find({doctorid:id});
+    console.log(data2);
+    resp.render('doctorpast',{data2});
+})
+
+app.get('/pending-requests/:id',verifydoctor,async(req,resp)=>{
+    let id=req.params.id;
+    console.log("hey isk",id)
+    let data2=await consult.find({doctorid:id});
+    console.log(data2);
+    resp.render('doctorpending',{data2});
+})
+
+app.get('/doctor-slots/:id',(req,resp)=>{
+    let id=req.params.id;
+    resp.render('doctorslots',{id})
+})
 
 app.post('/patientsignup',ds1.single('image'),async(req,resp)=>{
    
@@ -270,7 +323,7 @@ app.post('/adminlogin',async(req,resp)=>{
 
 })
 //departments
-app.get('/cardiology/doc/:pid',patfil,async (req,resp)=>{
+app.get('/cardiology/doc/:pid',verifypatient,async(req,resp)=>{
     console.log("hello cardio");
     let pid=req.params.pid.substring(1);
     let ds=await doctor.find({special:'cardiology',verified:true});
@@ -279,35 +332,35 @@ app.get('/cardiology/doc/:pid',patfil,async (req,resp)=>{
     resp.render('cardiology',{data});
 }) 
 
-app.get('/dermatology/doc/:pid',patfil,async (req,resp)=>{
+app.get('/dermatology/doc/:pid',verifypatient,async (req,resp)=>{
     let pid=req.params.pid.substring(1);
     let ds=await doctor.find({special:'dermatology',verified:true});
     let data={list:ds,pid:pid};
     resp.render('dermatology',{data});
 })
 
-app.get('/pediatrics/doc/:pid',patfil,async (req,resp)=>{
+app.get('/pediatrics/doc/:pid',verifypatient,async (req,resp)=>{
     let pid=req.params.pid.substring(1);
     let ds=await doctor.find({special:'pediatrics',verified:true});
     let data={list:ds,pid:pid};
     resp.render('pediatrics',{data});
 })
 
-app.get('/orthopedics/doc/:pid',patfil,async (req,resp)=>{
+app.get('/orthopedics/doc/:pid',verifypatient,async (req,resp)=>{
     let pid=req.params.pid.substring(1);
     let ds=await doctor.find({special:'orthopedics',verified:true});
     let data={list:ds,pid:pid};
     resp.render('orthopedics',{data});
 })
 
-app.get('/neurology/doc/:pid',patfil,async (req,resp)=>{
+app.get('/neurology/doc/:pid',verifypatient,async (req,resp)=>{
     let pid=req.params.pid.substring(1);
     let ds=await doctor.find({special:'neurology',verified:true});
     let data={list:ds,pid:pid};
     resp.render('neurology',{data});
 })
 
-app.get('/psychiatry/doc/:pid',patfil,async (req,resp)=>{
+app.get('/psychiatry/doc/:pid',verifypatient,async (req,resp)=>{
     let pid=req.params.pid.substring(1);
     let ds=await doctor.find({special:'psychiatry',verified:true});
     let data={list:ds,pid:pid};
@@ -316,8 +369,8 @@ app.get('/psychiatry/doc/:pid',patfil,async (req,resp)=>{
 
 //department end
 
-let consult=require('./consultconn.js');
-app.get('/consult/doc/:did/:pid',patfil,async(req,resp)=>{
+
+app.get('/consult/doc/:did/:pid',verifypatient,async(req,resp)=>{
     let paid=req.params.pid.substring(1);
     let did=req.params.did.substring(1);
     let data={pid:paid,did:did};
@@ -373,7 +426,7 @@ app.post('/submit/consultation/:pid/:did',async(req,resp)=>{
 resp.redirect('/patienthome'+'/'+paid); 
 
 })
-app.get('/acceptapp/:id',docfil,async(req,resp)=>{
+app.get('/acceptapp/:id',verifydoctor,async(req,resp)=>{
  let id=req.params.id;
  
  let arr=await consult.find({_id:id});
@@ -418,7 +471,7 @@ app.get('/acceptapp/:id',docfil,async(req,resp)=>{
 
 
 })
-app.get('/rejectapp/:id',docfil,async (req,resp)=>{
+app.get('/rejectapp/:id',verifydoctor,async (req,resp)=>{
 
     let id=req.params.id;
  
@@ -433,15 +486,9 @@ app.get('/readarticles',(req,resp)=>{
 })
 
 app.get('/consultnow',(req,resp)=>{
-    resp.render('patientlogin');
+    resp.render('patientconsultnow.ejs');
 })
-app.post('/searchbar',async (req,resp)=>{
-    let city=req.body.city;
-    let special=req.body.specialization;
-   // console.log(req.body);
-     let data=await doctor.find({city:city,special:special});
-    // console.log(data);
-})
+
 app.get('/reshedule/doc/:id',async (req,resp)=>{
     let id=req.params.id;
     let data=await consult.find({_id:id});
@@ -620,6 +667,16 @@ io.on('connection', socket => {
       socket.to(roomId).broadcast.emit('user-disconnected', userId)
     })
   })
+})
+
+app.post('/searchbar',async (req,resp)=>{
+    let city=req.body.city.toLowerCase();
+    let special=req.body.specialization.toLowerCase();
+    let data=await doctor.find({city:city,special:special,verified:true})
+  
+    console.log(data);
+    resp.render('search.ejs',{data});
+    
 })
 
 
